@@ -29,7 +29,7 @@ fun WordconNavHost(
             MainScreen()
         }
         composable(Screen.HomeScreen.route) {
-            HomeScreen(modifier = modifier)
+            HomeScreen()
         }
         composable(Screen.GamesScreen.route) {
             GamesScreen()
