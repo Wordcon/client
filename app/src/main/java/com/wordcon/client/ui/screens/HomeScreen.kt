@@ -80,10 +80,6 @@ fun HomeScreen() {
             }
             GamesByCategorySection(titleRes = R.string.by_category) {
                 GameByCategoryCard(
-                    categoryNameRes = R.string.countries,
-                    cardBackgroundRes = R.drawable.globe
-                )
-                GameByCategoryCard(
                     categoryNameRes = R.string.cities,
                     cardBackgroundRes = R.drawable.moscow
                 )
@@ -96,8 +92,8 @@ fun HomeScreen() {
                     cardBackgroundRes = R.drawable.food
                 )
                 GameByCategoryCard(
-                    categoryNameRes = R.string.robot,
-                    cardBackgroundRes = R.drawable.robot
+                    categoryNameRes = R.string.sports,
+                    cardBackgroundRes = R.drawable.sports
                 )
             }
         }
