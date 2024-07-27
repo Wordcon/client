@@ -98,8 +98,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     cardBackgroundRes = R.drawable.food
                 )
                 GameByCategoryCard(
-                    categoryNameRes = R.string.sports,
-                    cardBackgroundRes = R.drawable.sports
+                    categoryNameRes = R.string.robot,
+                    cardBackgroundRes = R.drawable.robot
                 )
             }
         }
@@ -211,7 +211,7 @@ fun GameByCategoryCard(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .background(
-                        color = Color.Black.copy(alpha = 0.5f),
+                        color = Color.Black.copy(alpha = 0.6f),
                         shape = RoundedCornerShape(topEnd = 16.dp)
                     )
                     .padding(16.dp)
