@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wordcon</string>
+    <string name="home">Главная</string>
+    <string name="games">Игры</string>
+    <string name="rating">Рейтинг</string>
+    <string name="account">Аккаунт</string>
+    <string name="random_game">Случайная игра</string>
+    <string name="select_random_game">Выбрать случайную игру</string>
+    <string name="by_category">По категориям</string>
+    <string name="countries">Страны</string>
+    <string name="cities">Города</string>
+    <string name="animals">Животные</string>
+    <string name="food">Еда</string>
+    <string name="sports">Спорт</string>
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Wordcon</string>
+    <string name="home">Main</string>
+    <string name="games">Games</string>
+    <string name="rating">Rating</string>
+    <string name="account">Account</string>
+    <string name="random_game">Random game</string>
+    <string name="select_random_game">Select random game</string>
+    <string name="by_category">By category</string>
+    <string name="countries">Countries</string>
+    <string name="cities">Cities</string>
+    <string name="animals">Animals</string>
+    <string name="food">Food</string>
+    <string name="sports">Sports</string>
+</resources>
