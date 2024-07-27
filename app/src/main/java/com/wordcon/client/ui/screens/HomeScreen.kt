@@ -80,30 +80,28 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             RandomGameSection(titleRes = R.string.random_game) {
                 RandomGameCard()
             }
-            GamesByCategorySection(titleRes = R.string.by_category,
-                listOf {
-                    GameByCategoryCard(
-                        categoryNameRes = R.string.countries,
-                        cardBackgroundRes = R.drawable.globe
-                    )
-                    GameByCategoryCard(
-                        categoryNameRes = R.string.cities,
-                        cardBackgroundRes = R.drawable.moscow
-                    )
-                    GameByCategoryCard(
-                        categoryNameRes = R.string.animals,
-                        cardBackgroundRes = R.drawable.capybara
-                    )
-                    GameByCategoryCard(
-                        categoryNameRes = R.string.food,
-                        cardBackgroundRes = R.drawable.food
-                    )
-                    GameByCategoryCard(
-                        categoryNameRes = R.string.sports,
-                        cardBackgroundRes = R.drawable.sports
-                    )
-                }
-            )
+            GamesByCategorySection(titleRes = R.string.by_category) {
+                GameByCategoryCard(
+                    categoryNameRes = R.string.countries,
+                    cardBackgroundRes = R.drawable.globe
+                )
+                GameByCategoryCard(
+                    categoryNameRes = R.string.cities,
+                    cardBackgroundRes = R.drawable.moscow
+                )
+                GameByCategoryCard(
+                    categoryNameRes = R.string.animals,
+                    cardBackgroundRes = R.drawable.capybara
+                )
+                GameByCategoryCard(
+                    categoryNameRes = R.string.food,
+                    cardBackgroundRes = R.drawable.food
+                )
+                GameByCategoryCard(
+                    categoryNameRes = R.string.sports,
+                    cardBackgroundRes = R.drawable.sports
+                )
+            }
         }
     }
 }
@@ -165,7 +163,7 @@ fun RandomGameCard(modifier: Modifier = Modifier) {
 @Composable
 fun GamesByCategorySection(
     @StringRes titleRes: Int,
-    content: List<@Composable () -> Unit>
+    content: @Composable () -> Unit
 ) {
     Column {
         Text(
@@ -176,9 +174,7 @@ fun GamesByCategorySection(
                 .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
                 .padding(horizontal = 16.dp)
         )
-        content.forEach { composable ->
-            composable()
-        }
+        content()
     }
 }
 
