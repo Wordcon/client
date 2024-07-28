@@ -28,6 +28,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,11 +45,13 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.wordcon.client.R
+import com.wordcon.client.core.vms.HomeScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen() {
     val scrollState = rememberScrollState()
+    val viewModel = HomeScreenViewModel()
 
     Scaffold(
         topBar = {
@@ -79,22 +83,17 @@ fun HomeScreen() {
                 RandomGameCard()
             }
             GamesByCategorySection(titleRes = R.string.by_category) {
-                GameByCategoryCard(
-                    categoryNameRes = R.string.cities,
-                    cardBackgroundRes = R.drawable.moscow
-                )
-                GameByCategoryCard(
-                    categoryNameRes = R.string.animals,
-                    cardBackgroundRes = R.drawable.capybara
-                )
-                GameByCategoryCard(
-                    categoryNameRes = R.string.food,
-                    cardBackgroundRes = R.drawable.food
-                )
-                GameByCategoryCard(
-                    categoryNameRes = R.string.sports,
-                    cardBackgroundRes = R.drawable.sports
-                )
+                val categories = viewModel.categories
+                LaunchedEffect(Unit) {
+                    viewModel.fetchCategories()
+                }
+
+                categories.forEach { category ->
+                    GameByCategoryCard(
+                        categoryNameRes = category.name,
+                        cardBackgroundRes = category.image
+                    )
+                }
             }
         }
     }

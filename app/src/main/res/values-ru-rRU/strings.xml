@@ -9,9 +9,7 @@
     <string name="select_random_game">Выбрать случайную игру</string>
     <string name="by_category">По категориям</string>
     <string name="countries">Страны</string>
-    <string name="cities">Города</string>
     <string name="animals">Животные</string>
     <string name="food">Еда</string>
     <string name="sports">Спорт</string>
-    <string name="robot">С роботом</string>
 </resources>
