@@ -13,4 +13,5 @@
     <string name="food">Еда</string>
     <string name="go_back">Назад</string>
     <string name="used_words">Использованные слова</string>
+    <string name="type_a_word">Введите слово</string>
 </resources>
