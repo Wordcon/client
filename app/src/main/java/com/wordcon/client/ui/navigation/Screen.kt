@@ -7,6 +7,4 @@ sealed class Screen(val route: String) {
     data object GamesScreen : Screen("games_screen")
     data object RatingScreen : Screen("rating_screen")
     data object AccountScreen : Screen("account_screen")
-
-    data object LobbyScreen : Screen("lobby_screen")
 }

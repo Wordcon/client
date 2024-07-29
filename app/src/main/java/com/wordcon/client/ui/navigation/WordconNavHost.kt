@@ -11,7 +11,6 @@ import com.wordcon.client.ui.screens.GamesScreen
 import com.wordcon.client.ui.screens.HomeScreen
 import com.wordcon.client.ui.screens.MainScreen
 import com.wordcon.client.ui.screens.AccountScreen
-import com.wordcon.client.ui.screens.LobbyScreen
 import com.wordcon.client.ui.screens.RatingScreen
 
 @Composable
@@ -30,7 +29,7 @@ fun WordconNavHost(
             MainScreen()
         }
         composable(Screen.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen()
         }
         composable(Screen.GamesScreen.route) {
             GamesScreen()
@@ -40,9 +39,6 @@ fun WordconNavHost(
         }
         composable(Screen.AccountScreen.route) {
             AccountScreen()
-        }
-        composable(Screen.LobbyScreen.route) {
-            LobbyScreen(navController)
         }
     }
 }
