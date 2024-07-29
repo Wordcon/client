@@ -87,6 +87,7 @@ fun HomeScreen(navController: NavController) {
             }
             GamesByCategorySection(titleRes = R.string.by_category) {
                 val categories = viewModel.categories
+
                 LaunchedEffect(Unit) {
                     viewModel.fetchCategories()
                 }
