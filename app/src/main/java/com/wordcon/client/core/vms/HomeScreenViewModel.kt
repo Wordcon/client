@@ -28,11 +28,6 @@ class HomeScreenViewModel : ViewModel() {
                     id = 2,
                     name = R.string.food,
                     image = R.drawable.food
-                ),
-                GameCategory(
-                    id = 3,
-                    name = R.string.sports,
-                    image = R.drawable.sports
                 )
             )
             _categories.addAll(categoriesList)
