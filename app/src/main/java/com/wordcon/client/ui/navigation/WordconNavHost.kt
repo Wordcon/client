@@ -11,6 +11,7 @@ import com.wordcon.client.ui.screens.GamesScreen
 import com.wordcon.client.ui.screens.HomeScreen
 import com.wordcon.client.ui.screens.MainScreen
 import com.wordcon.client.ui.screens.AccountScreen
+import com.wordcon.client.ui.screens.LobbyScreen
 import com.wordcon.client.ui.screens.RatingScreen
 
 @Composable
@@ -29,7 +30,7 @@ fun WordconNavHost(
             MainScreen()
         }
         composable(Screen.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
         composable(Screen.GamesScreen.route) {
             GamesScreen()
@@ -39,6 +40,13 @@ fun WordconNavHost(
         }
         composable(Screen.AccountScreen.route) {
             AccountScreen()
+        }
+        composable("${Screen.LobbyScreen.route}/{lobbyId}") { backStackEntry ->
+            val lobbyId = backStackEntry.arguments?.getString("lobbyId")
+            LobbyScreen(
+                lobbyId = lobbyId.toString(),
+                navController = navController
+            )
         }
     }
 }

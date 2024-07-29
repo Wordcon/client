@@ -8,8 +8,9 @@
     <string name="random_game">Случайная игра</string>
     <string name="select_random_game">Выбрать случайную игру</string>
     <string name="by_category">По категориям</string>
-    <string name="countries">Страны</string>
+    <string name="cities">Города</string>
     <string name="animals">Животные</string>
     <string name="food">Еда</string>
-    <string name="sports">Спорт</string>
+    <string name="go_back">Назад</string>
+    <string name="used_words">Использованные слова</string>
 </resources>

@@ -41,17 +41,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.wordcon.client.R
 import com.wordcon.client.core.vms.HomeScreenViewModel
+import com.wordcon.client.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val scrollState = rememberScrollState()
-    val viewModel = HomeScreenViewModel()
+    val viewModel: HomeScreenViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -80,7 +83,7 @@ fun HomeScreen() {
                 .verticalScroll(scrollState)
         ) {
             RandomGameSection(titleRes = R.string.random_game) {
-                RandomGameCard()
+                RandomGameCard(navController = navController)
             }
             GamesByCategorySection(titleRes = R.string.by_category) {
                 val categories = viewModel.categories
@@ -90,6 +93,7 @@ fun HomeScreen() {
 
                 categories.forEach { category ->
                     GameByCategoryCard(
+                        navController = navController,
                         categoryNameRes = category.name,
                         cardBackgroundRes = category.image
                     )
@@ -118,13 +122,25 @@ fun RandomGameSection(
 }
 
 @Composable
-fun RandomGameCard(modifier: Modifier = Modifier) {
+fun RandomGameCard(
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     Card(
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
-        onClick = { /*TODO*/ },
+        onClick = {
+            val lobbyId = "stub"
+            navController.navigate("${Screen.LobbyScreen.route}/$lobbyId") {
+                popUpTo(Screen.HomeScreen.route) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
         modifier = modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
@@ -173,6 +189,7 @@ fun GamesByCategorySection(
 
 @Composable
 fun GameByCategoryCard(
+    navController: NavController,
     @StringRes categoryNameRes: Int,
     @DrawableRes cardBackgroundRes: Int,
     modifier: Modifier = Modifier
@@ -181,7 +198,16 @@ fun GameByCategoryCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
-        onClick = { /* TODO */ },
+        onClick = {
+            val lobbyId = "stub"
+            navController.navigate("${Screen.LobbyScreen.route}/$lobbyId") {
+                popUpTo(Screen.HomeScreen.route) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()

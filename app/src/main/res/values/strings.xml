@@ -7,8 +7,9 @@
     <string name="random_game">Random game</string>
     <string name="select_random_game">Select random game</string>
     <string name="by_category">By category</string>
-    <string name="countries">Countries</string>
+    <string name="cities">Cities</string>
     <string name="animals">Animals</string>
     <string name="food">Food</string>
-    <string name="sports">Sports</string>
+    <string name="go_back">Go back</string>
+    <string name="used_words">Used words</string>
 </resources>

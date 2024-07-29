@@ -16,7 +16,7 @@ class HomeScreenViewModel : ViewModel() {
             val categoriesList = listOf( // stub data
                 GameCategory(
                     id = 0,
-                    name = R.string.countries,
+                    name = R.string.cities,
                     image = R.drawable.moscow
                 ),
                 GameCategory(
@@ -29,11 +29,6 @@ class HomeScreenViewModel : ViewModel() {
                     name = R.string.food,
                     image = R.drawable.food
                 ),
-                GameCategory(
-                    id = 3,
-                    name = R.string.sports,
-                    image = R.drawable.sports
-                )
             )
             _categories.addAll(categoriesList)
         }
