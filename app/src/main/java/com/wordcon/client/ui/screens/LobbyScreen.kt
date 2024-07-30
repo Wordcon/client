@@ -4,12 +4,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.captionBar
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
@@ -60,6 +64,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wordcon.client.R
+import com.wordcon.client.core.network.entities.MessageSender
 import com.wordcon.client.core.network.entities.Participant
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +84,7 @@ fun LobbyScreen(
                 },
                 actions =  {
                     IconButton(onClick = {  }) {
-                        Icon(painter = painterResource(id = R.drawable.history_24px), contentDescription = null)
+                        Icon(painter = painterResource(id = R.drawable.menu_book_24px), contentDescription = null)
                     }
                 }
             )
@@ -89,7 +94,7 @@ fun LobbyScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .windowInsetsPadding(WindowInsets.Companion.ime)
+                .windowInsetsPadding(WindowInsets(top = 10.dp))
         ) {
             val participants = arrayListOf(
                 Participant(1, "Вы", R.drawable.moscow),
@@ -97,10 +102,18 @@ fun LobbyScreen(
                 Participant(3, "гений", R.drawable.moscow),
                 Participant(4, "nickname", R.drawable.food)
             )
-            //UsedWords()
             Spacer(modifier = Modifier.height(4.dp))
             AllParticipantsList(participants)
-            CurrentChat()
+            CurrentChat(
+                messages = arrayListOf(
+                    MessageSender("ку", "Алиса"),
+                    MessageSender("привет", "Боб"),
+                    MessageSender("как дела?", "Чарли")
+                ),
+                modifier = Modifier
+                    .weight(15f)
+                    .fillMaxWidth()
+            )
             Spacer(modifier = Modifier.weight(1f))
             MessageInput()
         }
@@ -108,9 +121,39 @@ fun LobbyScreen(
 }
 
 @Composable
-fun CurrentChat() {
-    LazyColumn {
+fun CurrentChat(messages: ArrayList<MessageSender>, modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            reverseLayout = true,
+        ) {
+            items(messages) { message ->
+                MessageItem(messageText = message.messageText, username = message.username)
+            }
+        }
+    }
+}
 
+@Composable
+fun MessageItem(
+    username: String,
+    messageText: String,
+) {
+    Card(
+        modifier = Modifier
+            .padding(start = 26.dp, top = 6.dp)
+            .clip(shape = MaterialTheme.shapes.medium)
+            .border(1.dp, Color.White, shape = MaterialTheme.shapes.medium)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Color.Black)
+                .padding(horizontal = 5.dp, vertical = 5.dp)
+        ) {
+            Text(text = username, color = Color.Green)
+            Text(text = messageText)
+        }
     }
 }
 

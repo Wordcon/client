@@ -14,7 +14,7 @@ class HomeScreenViewModel : ViewModel() {
 
     fun fetchCategories() {
         viewModelScope.launch {
-            if (!isInitialized) {
+            if(!isInitialized) {
                 val categoriesList = listOf( // stub data
                     GameCategory(
                         id = 0,
