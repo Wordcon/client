@@ -2,6 +2,7 @@ package com.wordcon.client.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -54,6 +56,7 @@ fun GamesScreen(navController: NavController) {
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(scrollState)
         ) {
@@ -67,6 +70,8 @@ fun GamesScreen(navController: NavController) {
                         restoreState = true
                     }
                 },
+                modifier = Modifier
+                    .align(Alignment.End),
                 containerColor = Color.White,
                 contentColor = Color.Black
             ) {

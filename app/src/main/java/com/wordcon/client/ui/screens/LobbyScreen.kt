@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -142,40 +141,35 @@ fun MessageItem(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MessageInput() {
     var text by rememberSaveable { mutableStateOf("") }
 
-    Row(
+    TextField(
+        leadingIcon = {
+            Icon(painter = painterResource(id = R.drawable.chat_24px), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+        },
+        trailingIcon = {
+            Icon(Icons.Default.Send, contentDescription = "Send", tint = MaterialTheme.colorScheme.primary)
+        },
+        value = text,
+        onValueChange = {text = it},
+        shape = MaterialTheme.shapes.medium,
+        placeholder = { Text(stringResource(R.string.type_a_word)) },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .clip(shape = MaterialTheme.shapes.medium)
-            .background(Color.Black)
-            .padding(horizontal = 8.dp, vertical = 1.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TextField(
-            leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.chat_24px), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-            },
-            trailingIcon = {
-                Icon(Icons.Default.Send, contentDescription = "Send", tint = MaterialTheme.colorScheme.primary)
-            },
-            value = text,
-            onValueChange = {text = it},
-            placeholder = { Text(stringResource(R.string.type_a_word)) },
-            modifier = Modifier.weight(1f),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Black,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                cursorColor = MaterialTheme.colorScheme.primary
-            )
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 8.dp),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Black,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            unfocusedContainerColor = Color.Black,
+            errorContainerColor = Color.Transparent,
+            cursorColor = Color.White,
+            disabledTextColor = Color.White
         )
-
-    }
+    )
 }
 
 @Composable
