@@ -14,4 +14,6 @@
     <string name="go_back">Назад</string>
     <string name="used_words">Использованные слова</string>
     <string name="type_a_word">Введите слово</string>
+    <string name="creating_game">Создание игры</string>
+    <string name="mode">Режим</string>
 </resources>

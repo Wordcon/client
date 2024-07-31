@@ -13,4 +13,6 @@
     <string name="go_back">Go back</string>
     <string name="used_words">Used words</string>
     <string name="type_a_word">Enter word</string>
+    <string name="creating_game">Creating game</string>
+    <string name="mode">Mode</string>
 </resources>

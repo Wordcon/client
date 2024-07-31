@@ -1,5 +1,6 @@
 package com.wordcon.client.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -27,7 +29,6 @@ import com.wordcon.client.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateGameScreen(navController: NavController) {
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -46,7 +47,7 @@ fun CreateGameScreen(navController: NavController) {
                 .padding(16.dp)
                 .padding(innerPadding)
         ) {
-            Text(text = "Создание игры", color = Color.White)
+            Text(text = stringResource(R.string.creating_game))
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -62,55 +63,11 @@ fun CreateGameScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "Режим", color = Color.White)
-            var expanded by remember { mutableStateOf(false) }
-            var selectedMode by remember { mutableStateOf("Города") }
-            Box {
-                TextField(
-                    value = selectedMode,
-                    onValueChange = {},
-                    label = { Text("Режим") },
-                    readOnly = true,
-                    trailingIcon = {
-                        Icon(Icons.Default.ArrowDropDown, contentDescription = null)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            expanded = true
-                        }
-                        .border(
-                            width = 2.dp,
-                            color = Color.Gray,
-                            shape = MaterialTheme.shapes.medium
-                        ),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        errorContainerColor = Color.Transparent,
-                        cursorColor = Color.White,
-                        disabledTextColor = Color.White
-                    )
-                )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = Modifier
-                        .background(Color.White)
-                ) {
-                    listOf("Города", "Страны", "Животные").forEach { mode ->
-                        DropdownMenuItem(
-                            onClick = {
-                                selectedMode = mode
-                                expanded = false
-                            },
-                            text = { Text(mode) }
-                        )
-                    }
-                }
-            }
+            Text(text = stringResource(R.string.mode))
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            GameMode()
 
             Spacer(modifier = Modifier.height(46.dp))
 
@@ -118,7 +75,7 @@ fun CreateGameScreen(navController: NavController) {
                 onClick = {},
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
-                containerColor = Color.Green,
+                containerColor = Color(0xFF17BD13),
                 contentColor = Color.Black
             ) {
                 Icon(Icons.Filled.Check, "Floating action button.")
@@ -127,19 +84,89 @@ fun CreateGameScreen(navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GameMode() {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedMode by remember { mutableStateOf("Города") }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+    ) {
+        TextField(
+            value = selectedMode,
+            onValueChange = {},
+            label = { Text("Режим") },
+            readOnly = true,
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expanded
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor()
+                .border(
+                    width = 2.dp,
+                    color = Color.Gray,
+                    shape = MaterialTheme.shapes.medium
+                ),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                errorContainerColor = Color.Transparent,
+                cursorColor = Color.White,
+                disabledTextColor = Color.White
+            )
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            listOf(Mode("Города", R.drawable.skyscraper), Mode("Еда", R.drawable.apple), Mode("Животные", R.drawable.turtle)).forEach { mode ->
+                DropdownMenuItem(
+                    onClick = {
+                        selectedMode = mode.title
+                        expanded = false
+                    },
+                    text = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = mode.image),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(mode.title)
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+
+data class Mode(val title: String, val image: Int)
+
+
 @Composable
 fun PlayersLimitSlider() {
-    Text(text = "Лимит игроков", color = Color.White)
+    Text(text = "Лимит игроков")
     var playerLimit by rememberSaveable { mutableStateOf(4f) }
-    Text(text = playerLimit.toInt().toString(), color = Color.White)
+    Text(text = playerLimit.toInt().toString())
     Slider(
         value = playerLimit,
         onValueChange = { playerLimit = it },
         valueRange = 1f..100f,
         steps = 100,
         colors = SliderDefaults.colors(
-            thumbColor = Color.White,
-            activeTrackColor = Color.White,
             inactiveTrackColor = Color.Gray
         )
     )
