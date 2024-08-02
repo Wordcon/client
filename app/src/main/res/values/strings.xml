@@ -15,4 +15,7 @@
     <string name="type_a_word">Enter word</string>
     <string name="creating_game">Creating game</string>
     <string name="mode">Mode</string>
+    <string name="players_limit">Players limit</string>
+    <string name="team_name">Team name</string>
+    <string name="passwrod">Password</string>
 </resources>

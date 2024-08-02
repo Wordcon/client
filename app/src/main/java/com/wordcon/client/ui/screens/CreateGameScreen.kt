@@ -1,23 +1,16 @@
 package com.wordcon.client.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,6 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wordcon.client.R
+import com.wordcon.client.core.network.entities.GameMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,18 +61,19 @@ fun CreateGameScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            GameMode()
+            GameModeMenu()
 
-            Spacer(modifier = Modifier.height(46.dp))
+            Spacer(modifier = Modifier.height(86.dp))
 
             FloatingActionButton(
                 onClick = {},
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
-                containerColor = Color(0xFF17BD13),
+                    .align(Alignment.CenterHorizontally)
+                    .size(size = 75.dp),
+                containerColor = Color(0xFF0AE02D),
                 contentColor = Color.Black
             ) {
-                Icon(Icons.Filled.Check, "Floating action button.")
+                Icon(Icons.Filled.Check,"Floating action button.", Modifier.size(size = 30.dp))
             }
         }
     }
@@ -86,9 +81,20 @@ fun CreateGameScreen(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GameMode() {
+fun GameModeMenu() {
+    val categoriesList = listOf(
+        GameMode(id = "cities", title = stringResource(id = R.string.cities), image = R.drawable.skyscraper),
+        GameMode(id = "food", title = stringResource(id = R.string.food), image = R.drawable.apple),
+        GameMode(id = "animals", title = stringResource(id = R.string.animals), image = R.drawable.turtle)
+    )
+
     var expanded by remember { mutableStateOf(false) }
-    var selectedMode by remember { mutableStateOf("Города") }
+
+    var selectedMode by rememberSaveable {
+        mutableStateOf(
+            categoriesList[0].title,
+        )
+    }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -97,7 +103,7 @@ fun GameMode() {
         TextField(
             value = selectedMode,
             onValueChange = {},
-            label = { Text("Режим") },
+            label = { Text( stringResource(id = R.string.mode)) },
             readOnly = true,
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(
@@ -128,7 +134,7 @@ fun GameMode() {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            listOf(Mode("Города", R.drawable.skyscraper), Mode("Еда", R.drawable.apple), Mode("Животные", R.drawable.turtle)).forEach { mode ->
+            categoriesList.forEach { mode ->
                 DropdownMenuItem(
                     onClick = {
                         selectedMode = mode.title
@@ -153,12 +159,9 @@ fun GameMode() {
     }
 }
 
-data class Mode(val title: String, val image: Int)
-
-
 @Composable
 fun PlayersLimitSlider() {
-    Text(text = "Лимит игроков")
+    Text(text = stringResource(R.string.players_limit))
     var playerLimit by rememberSaveable { mutableStateOf(4f) }
     Text(text = playerLimit.toInt().toString())
     Slider(
@@ -172,14 +175,13 @@ fun PlayersLimitSlider() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordInput() {
     var password by rememberSaveable { mutableStateOf("") }
     TextField(
         value = password,
         onValueChange = { password = it },
-        label = { Text("Пароль (необязательно)") },
+        label = { Text(stringResource(R.string.passwrod)) },
         visualTransformation = PasswordVisualTransformation(),
         modifier = Modifier
             .fillMaxWidth()
@@ -206,7 +208,7 @@ fun RoomNameInput() {
     TextField(
         value = roomName,
         onValueChange = { roomName = it },
-        label = { Text("Название комнаты") },
+        label = { Text(stringResource(R.string.team_name)) },
         modifier = Modifier
             .fillMaxWidth()
             .border(

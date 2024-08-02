@@ -16,4 +16,7 @@
     <string name="type_a_word">Введите слово</string>
     <string name="creating_game">Создание игры</string>
     <string name="mode">Режим</string>
+    <string name="players_limit">Лимит игроков</string>
+    <string name="team_name">Название комнаты</string>
+    <string name="passwrod">Пароль</string>
 </resources>
