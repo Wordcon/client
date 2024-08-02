@@ -18,8 +18,11 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +35,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -48,6 +52,25 @@ import androidx.navigation.NavController
 import com.wordcon.client.R
 import com.wordcon.client.core.network.entities.MessageSender
 import com.wordcon.client.core.network.entities.Participant
+import kotlin.random.Random
+
+fun getRandomColor(): Color {
+    val channels = listOf(0f, 0f, 0f).toMutableList()
+
+    channels[Random.nextInt(3)] = 1.0f
+
+    for (i in channels.indices) {
+        if (channels[i] == 0f) {
+            channels[i] = Random.nextFloat() * 0.5f + 0.5f
+        }
+    }
+
+    return Color(
+        red = channels[0],
+        green = channels[1],
+        blue = channels[2]
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +78,17 @@ fun LobbyScreen(
     lobbyId: String,
     navController: NavController
 ) {
+    var messages by rememberSaveable {
+        mutableStateOf(
+            arrayListOf(
+                MessageSender("Alice", "Боб"),
+                MessageSender("Bob", "Арбуз"),
+            )
+        )
+    }
+
+    val userColors = rememberSaveable { mutableMapOf<String, Color>() }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -87,34 +121,43 @@ fun LobbyScreen(
             Spacer(modifier = Modifier.height(4.dp))
             AllParticipantsList(participants)
             CurrentChat(
-                messages = arrayListOf(
-                    MessageSender("ку", "Алиса"),
-                    MessageSender("привет", "Боб"),
-                    MessageSender("как дела?", "Чарли")
-                ),
+                messages = messages,
+                userColors = userColors,
                 modifier = Modifier
                     .weight(15f)
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.weight(1f))
-            MessageInput()
+            MessageInput(
+                onSendMessage = { message ->
+                    messages = ArrayList(messages).apply { add(message) }
+                }
+            )
         }
     }
 }
 
 @Composable
-fun CurrentChat(messages: ArrayList<MessageSender>, modifier: Modifier = Modifier) {
+fun CurrentChat(messages: ArrayList<MessageSender>, userColors: MutableMap<String, Color>, modifier: Modifier = Modifier) {
+    val listState = rememberLazyListState()
+
     Box(modifier = modifier) {
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .fillMaxSize()
                 .align(Alignment.Center)
             ,
             reverseLayout = true,
         ) {
-            items(messages) { message ->
-                MessageItem(messageText = message.messageText, username = message.username)
+            items(messages.reversed()) { message ->
+                val color = userColors.getOrPut(message.username) { getRandomColor() }
+                MessageItem(messageText = message.messageText, username = message.username, usernameColor = color)
             }
+        }
+        
+        LaunchedEffect(key1 = messages.size) {
+            listState.scrollToItem(0)
         }
     }
 }
@@ -123,34 +166,44 @@ fun CurrentChat(messages: ArrayList<MessageSender>, modifier: Modifier = Modifie
 fun MessageItem(
     username: String,
     messageText: String,
+    usernameColor: Color
 ) {
     Card(
         modifier = Modifier
-            .padding(start = 26.dp, top = 6.dp)
+            .padding(start = 24.dp, top = 6.dp)
             .clip(shape = MaterialTheme.shapes.medium)
             .border(1.dp, Color.White, shape = MaterialTheme.shapes.medium)
     ) {
         Column(
             modifier = Modifier
                 .background(Color.Black)
-                .padding(horizontal = 5.dp, vertical = 5.dp)
+                .padding(horizontal = 10.dp, vertical = 6.dp)
         ) {
-            Text(text = username, color = Color.Green)
+            Text(text = username, color = usernameColor)
             Text(text = messageText)
         }
     }
 }
 
 @Composable
-fun MessageInput() {
+fun MessageInput(onSendMessage: (MessageSender) -> Unit) {
     var text by rememberSaveable { mutableStateOf("") }
 
     TextField(
         leadingIcon = {
-            Icon(painter = painterResource(id = R.drawable.chat_24px), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            IconButton(onClick = {
+
+            }) {
+                Icon(painter = painterResource(id = R.drawable.chat_24px), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            }
         },
         trailingIcon = {
-            Icon(Icons.Default.Send, contentDescription = "Send", tint = MaterialTheme.colorScheme.primary)
+            IconButton(onClick = {
+                onSendMessage(MessageSender("Вы", text))
+                text = ""
+            }) {
+                Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Send", tint = MaterialTheme.colorScheme.primary)
+            }
         },
         value = text,
         onValueChange = {text = it},
