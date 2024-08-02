@@ -7,12 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.wordcon.client.ui.screens.GamesScreen
-import com.wordcon.client.ui.screens.HomeScreen
-import com.wordcon.client.ui.screens.MainScreen
 import com.wordcon.client.ui.screens.AccountScreen
 import com.wordcon.client.ui.screens.CreateGameScreen
+import com.wordcon.client.ui.screens.GamesScreen
+import com.wordcon.client.ui.screens.HomeScreen
 import com.wordcon.client.ui.screens.LobbyScreen
+import com.wordcon.client.ui.screens.MainScreen
 import com.wordcon.client.ui.screens.RatingScreen
 
 @Composable
