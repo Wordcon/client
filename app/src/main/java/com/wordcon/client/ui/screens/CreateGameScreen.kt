@@ -188,13 +188,13 @@ fun GameModeMenu() {
 @Composable
 fun PlayersLimitSlider() {
     Text(text = stringResource(R.string.players_limit))
-    var playerLimit by rememberSaveable { mutableStateOf(4f) }
+    var playerLimit by rememberSaveable { mutableStateOf(5f) }
     Text(text = playerLimit.toInt().toString())
     Slider(
         value = playerLimit,
         onValueChange = { playerLimit = it },
-        valueRange = 1f..100f,
-        steps = 100,
+        valueRange = 2f..50F,
+        steps = 49,
         colors = SliderDefaults.colors(
             inactiveTrackColor = Color.Gray
         )
