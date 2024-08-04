@@ -23,4 +23,5 @@
     <string name="private_">Приватная</string>
     <string name="full">Набрана</string>
     <string name="players">Игроков: %1$s / %2$s</string>
+    <string name="all">Все</string>
 </resources>

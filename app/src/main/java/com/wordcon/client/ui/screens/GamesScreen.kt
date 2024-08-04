@@ -15,23 +15,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,13 +57,15 @@ import com.wordcon.client.ui.navigation.Screen
 @Composable
 fun GamesScreen(navController: NavController) {
     val scrollState = rememberScrollState()
+    val searchText = remember { mutableStateOf("") }
+    val selectedType = remember { mutableStateOf("All") }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Wordcon",
+                        text = "Games",
                         fontWeight = FontWeight.SemiBold
                     )
                 },
@@ -78,8 +86,12 @@ fun GamesScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            Column {
+                SearchBar(searchText = searchText, selectedType = selectedType) {
 
-            GameList()
+                }
+                GameList()
+            }
 
             FloatingActionButton(
                 onClick = {
@@ -107,9 +119,9 @@ fun GamesScreen(navController: NavController) {
 fun GameList() {
     val games = remember {
         arrayListOf(
-            GameInfo("towns", 2, 4, "open", "1"),
+            GameInfo("cities", 2, 4, "open", "1"),
             GameInfo("animals", 1, 4, "open", "2"),
-            GameInfo("towns", 3, 4, "open", "3"),
+            GameInfo("cities", 3, 4, "open", "3"),
             GameInfo("food", 4, 4, "open", "4"),
             GameInfo("animals", 2, 4, "open", "5")
         )
@@ -146,7 +158,7 @@ fun GameCard(type: String, playersIn: Int, maxPlayers: Int, status: String, id: 
     }
 
     val image = when(type) {
-        "towns" -> R.drawable.moscow
+        "cities" -> R.drawable.moscow
         "food" -> R.drawable.food
         "animals" -> R.drawable.capybara
         else -> R.drawable.turtle
@@ -159,7 +171,7 @@ fun GameCard(type: String, playersIn: Int, maxPlayers: Int, status: String, id: 
     }
 
     val type_lang = when(type) {
-        "cities" -> stringResource(R.string.cities)
+        "cities" -> stringResource(id = R.string.cities)
         "animals" -> stringResource(id = R.string.animals)
         "food" -> stringResource(id = R.string.food)
         else -> "robot"
@@ -213,6 +225,55 @@ fun GameCard(type: String, playersIn: Int, maxPlayers: Int, status: String, id: 
             ) {
                 Text(text = status_lang, color = Color.White, style = MaterialTheme.typography.bodyMedium)
             }
+        }
+    }
+}
+
+@Composable
+fun SearchBar(
+    searchText: MutableState<String>,
+    selectedType: MutableState<String>,
+    onFilterChanged: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        TextField(
+            value = searchText.value,
+            onValueChange = {
+                searchText.value = it
+                onFilterChanged()
+            },
+            placeholder = { Text("Search games") },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
+        )
+        GameTypeChips(selectedType, onFilterChanged)
+    }
+}
+
+@Composable
+fun GameTypeChips(
+    selectedType: MutableState<String>,
+    onFilterChanged: () -> Unit
+) {
+    val gameTypes = listOf(stringResource(R.string.all), stringResource(id = R.string.cities), stringResource(id = R.string.food), stringResource(id = R.string.animals), "Альфа банк")
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        items(gameTypes) { type ->
+            FilterChip(
+                selected = selectedType.value == type,
+                onClick = {
+                    selectedType.value = type
+                    onFilterChanged()
+                },
+                label = { Text(type) }
+            )
         }
     }
 }

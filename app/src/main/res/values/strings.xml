@@ -22,4 +22,5 @@
     <string name="private_">Private</string>
     <string name="full">Full</string>
     <string name="players">Players: %1$s / %2$s</string>
+    <string name="all">All</string>
 </resources>
