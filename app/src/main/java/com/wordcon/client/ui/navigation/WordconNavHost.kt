@@ -34,7 +34,7 @@ fun WordconNavHost(
             HomeScreen(navController = navController)
         }
         composable(Screen.GamesScreen.route) {
-            GamesScreen(navController)
+            GamesScreen(navController = navController)
         }
         composable(Screen.RatingScreen.route) {
             RatingScreen()

@@ -13,14 +13,15 @@
     <string name="go_back">Go back</string>
     <string name="used_words">Used words</string>
     <string name="type_a_word">Enter word</string>
-    <string name="creating_game">Creating game</string>
     <string name="mode">Mode</string>
     <string name="players_limit">Players limit</string>
-    <string name="team_name">Team name</string>
-    <string name="passwrod">Password(optional)</string>
+    <string name="room_name">Team name</string>
+    <string name="room_password">Password (optional)</string>
     <string name="open">Open</string>
     <string name="private_">Private</string>
     <string name="full">Full</string>
     <string name="players">Players: %1$s / %2$s</string>
     <string name="all">All</string>
+    <string name="create_game">Create game</string>
+    <string name="room_info">Room info</string>
 </resources>

@@ -14,14 +14,15 @@
     <string name="go_back">Назад</string>
     <string name="used_words">Использованные слова</string>
     <string name="type_a_word">Введите слово</string>
-    <string name="creating_game">Создание игры</string>
     <string name="mode">Режим</string>
     <string name="players_limit">Лимит игроков</string>
-    <string name="team_name">Название комнаты</string>
-    <string name="passwrod">Пароль(необязательно)</string>
+    <string name="room_name">Название комнаты</string>
+    <string name="room_password">Пароль (необязательно)</string>
     <string name="open">Открыто</string>
     <string name="private_">Приватная</string>
     <string name="full">Набрана</string>
     <string name="players">Игроков: %1$s / %2$s</string>
     <string name="all">Все</string>
+    <string name="create_game">Создать игру</string>
+    <string name="room_info">Информация комнаты</string>
 </resources>
