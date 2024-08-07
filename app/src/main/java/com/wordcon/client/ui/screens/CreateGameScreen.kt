@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -250,7 +252,11 @@ fun GameModeDropdownMenu() {
             readOnly = true,
             trailingIcon = {
                 Icon(
-                    imageVector = Icons.Default.MoreVert,
+                    imageVector = if (isExpanded) {
+                        Icons.Default.KeyboardArrowUp
+                    } else {
+                        Icons.Default.KeyboardArrowDown
+                    },
                     contentDescription = null
                 )
             },
