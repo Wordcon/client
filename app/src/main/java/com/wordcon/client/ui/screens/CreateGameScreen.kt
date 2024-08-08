@@ -184,25 +184,6 @@ fun RoomPasswordTextField() {
         value = roomPassword,
         onValueChange = { roomPassword = it },
         label = { Text(stringResource(R.string.room_password)) },
-        visualTransformation = if (showPassword) {
-            PasswordVisualTransformation()
-        } else {
-            VisualTransformation.None
-        },
-        trailingIcon = {
-            IconButton(onClick = { showPassword = !showPassword }) {
-                Icon(
-                    painter = painterResource(
-                        id = if (showPassword) {
-                            R.drawable.visibility_24px
-                        } else {
-                            R.drawable.visibility_off_24px
-                        }
-                    ),
-                    contentDescription = "Toggle password visibility"
-                )
-            }
-        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp)
