@@ -26,4 +26,10 @@
     <string name="create_game">Создать игру</string>
     <string name="room_info">Информация о комнате</string>
     <string name="ranking_impact">Влияние на рейтинг</string>
+    <string name="seconds">сек</string>
+    <string name="minutes">мин</string>
+    <string name="hours">ч</string>
+    <string name="days">д</string>
+    <string name="turn_duration">Длительность хода</string>
+    <string name="amount">Количество</string>
 </resources>

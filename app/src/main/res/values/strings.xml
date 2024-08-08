@@ -25,4 +25,10 @@
     <string name="create_game">Create game</string>
     <string name="room_info">Room info</string>
     <string name="ranking_impact">Ranking impact</string>
+    <string name="seconds">sec</string>
+    <string name="minutes">min</string>
+    <string name="hours">hr</string>
+    <string name="days">d</string>
+    <string name="turn_duration">Turn duration</string>
+    <string name="amount">Amount</string>
 </resources>

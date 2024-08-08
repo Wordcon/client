@@ -110,6 +110,9 @@ fun CreateGameScreen(navController: NavController) {
                     playersLimit = newLimit
                 }
             }
+            TurnPlayersLimitSection(titleRes = R.string.turn_duration) {
+                TurnPlayersLimit()
+            }
         }
     }
 }
@@ -273,11 +276,7 @@ fun GameModeDropdownMenu() {
             readOnly = true,
             trailingIcon = {
                 Icon(
-                    imageVector = if (isExpanded) {
-                        Icons.Default.KeyboardArrowUp
-                    } else {
-                        Icons.Default.KeyboardArrowDown
-                    },
+                    imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null
                 )
             },
@@ -347,7 +346,7 @@ fun PlayersLimitSection(
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Normal,
             modifier = Modifier
-                .paddingFromBaseline(top = 40.dp, bottom = 16.dp)
+                .paddingFromBaseline(top = 40.dp, bottom = 12.dp)
                 .padding(horizontal = 16.dp)
         )
         content()
@@ -365,7 +364,123 @@ fun PlayersLimitSlider(
         valueRange = 2f..50f,
         steps = 49,
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 4.dp)
             .fillMaxWidth()
     )
+}
+
+@Composable
+fun TurnPlayersLimitSection(
+    @StringRes titleRes: Int,
+    content: @Composable () -> Unit
+) {
+    Column {
+        Text(
+            text = stringResource(id = titleRes),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Normal,
+            modifier = Modifier
+                .paddingFromBaseline(top = 40.dp, bottom = 12.dp)
+                .padding(horizontal = 16.dp)
+        )
+        content()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TurnPlayersLimit() {
+    val units = listOf(
+        stringResource(id = R.string.seconds),
+        stringResource(id = R.string.minutes),
+        stringResource(id = R.string.hours),
+        stringResource(id = R.string.days)
+    )
+    var value by rememberSaveable { mutableStateOf("") }
+    var selectedUnit by rememberSaveable { mutableStateOf(units[0]) }
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            value = value,
+            onValueChange = { value = it },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.amount),
+                )
+            },
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 4.dp)
+                .border(
+                    width = 2.dp,
+                    color = Color.Gray,
+                    shape = MaterialTheme.shapes.medium
+                ),
+            colors = colors(
+                focusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                errorContainerColor = Color.Transparent,
+                cursorColor = Color.White,
+                disabledTextColor = Color.White
+            ),
+        )
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { isExpanded = it },
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 4.dp)
+        ) {
+            TextField(
+                value = selectedUnit,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = {
+                    Icon(
+                        imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                },
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
+                    .border(
+                        width = 2.dp,
+                        color = Color.Gray,
+                        shape = MaterialTheme.shapes.medium
+                    ),
+                colors = colors(
+                    focusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent,
+                    cursorColor = Color.White,
+                    disabledTextColor = Color.White
+                ),
+            )
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = { isExpanded = false }
+            ) {
+                units.forEach { unit ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedUnit = unit
+                            isExpanded = false
+                        },
+                        text = { Text(unit) }
+                    )
+                }
+            }
+        }
+    }
 }
