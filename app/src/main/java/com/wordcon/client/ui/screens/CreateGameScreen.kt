@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
-
 package com.wordcon.client.ui.screens
 
 import androidx.annotation.StringRes
@@ -10,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -19,12 +18,13 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults.colors
@@ -41,8 +41,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wordcon.client.R
@@ -58,7 +56,7 @@ fun CreateGameScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.create_game)) },
+                title = { Text(text = stringResource(id = R.string.create_game)) },
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -74,19 +72,6 @@ fun CreateGameScreen(navController: NavController) {
             )
         },
         floatingActionButton = {
-//            ExtendedFloatingActionButton(
-//                onClick = if (roomName.isNotBlank()) {
-//                    { navController.navigate("${Screen.LobbyScreen.route}/$roomName") }
-//                } else {
-//                    { null }
-//                },
-//                modifier = Modifier.padding(16.dp)
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.Check,
-//                    contentDescription = null
-//                )
-//            }
             ExtendedFloatingActionButton(
                 text = {
                     Text(text = stringResource(id = R.string.create_game))
@@ -115,6 +100,7 @@ fun CreateGameScreen(navController: NavController) {
                     roomName = newRoomName
                 }
                 RoomPasswordTextField()
+                RankingImpactSwitch()
             }
             GameModeSection(titleRes = R.string.mode) {
                 GameModeDropdownMenu()
@@ -178,7 +164,6 @@ fun RoomNameTextField(
 @Composable
 fun RoomPasswordTextField() {
     var roomPassword by rememberSaveable { mutableStateOf("") }
-    var showPassword by rememberSaveable { mutableStateOf(false) }
 
     TextField(
         value = roomPassword,
@@ -202,6 +187,38 @@ fun RoomPasswordTextField() {
             disabledTextColor = Color.White
         )
     )
+}
+
+@Composable
+fun RankingImpactSwitch() {
+    var isChecked by rememberSaveable { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(id = R.string.ranking_impact),
+            modifier = Modifier.weight(1f)
+        )
+        Switch(
+            checked = isChecked,
+            onCheckedChange = { isChecked = it },
+            thumbContent = if (isChecked) {
+                {
+                    Icon(
+                        painter = painterResource(id = R.drawable.trophy_filled),
+                        contentDescription = null,
+                        modifier = Modifier.size(SwitchDefaults.IconSize),
+                    )
+                }
+            } else {
+                null
+            }
+        )
+    }
 }
 
 @Composable

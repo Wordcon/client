@@ -24,4 +24,5 @@
     <string name="all">All</string>
     <string name="create_game">Create game</string>
     <string name="room_info">Room info</string>
+    <string name="ranking_impact">Ranking impact</string>
 </resources>

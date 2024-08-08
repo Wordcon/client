@@ -24,5 +24,6 @@
     <string name="players">Игроков: %1$s / %2$s</string>
     <string name="all">Все</string>
     <string name="create_game">Создать игру</string>
-    <string name="room_info">Информация комнаты</string>
+    <string name="room_info">Информация о комнате</string>
+    <string name="ranking_impact">Влияние на рейтинг</string>
 </resources>
