@@ -5,11 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,6 +21,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,12 +32,14 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.colors
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -248,40 +253,41 @@ fun GameModeSection(
 @Composable
 fun GameModeDropdownMenu() {
     val categoriesList = listOf(
-        GameMode(
-            id = "cities",
-            title = stringResource(id = R.string.cities),
-            image = R.drawable.apartment_24px
-        ),
-        GameMode(
-            id = "food",
-            title = stringResource(id = R.string.food),
-            image = R.drawable.restaurant_24px
-        ),
-        GameMode(
-            id = "animals",
-            title = stringResource(id = R.string.animals),
-            image = R.drawable.pets_24px
-        )
+        GameMode(id = "cities", title = stringResource(id = R.string.cities), image = R.drawable.skyscraper),
+        GameMode(id = "food", title = stringResource(id = R.string.food), image = R.drawable.apple),
+        GameMode(id = "animals", title = stringResource(id = R.string.animals), image = R.drawable.koala)
     )
 
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
-    var selectedCategory by rememberSaveable { mutableStateOf(categoriesList[0].title) }
+    var expanded by remember { mutableStateOf(false) }
+
+    var selectedMode by rememberSaveable {
+        mutableStateOf(
+            categoriesList[0].title,
+        )
+    }
 
     ExposedDropdownMenuBox(
-        expanded = isExpanded,
-        onExpandedChange = { isExpanded = it }
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
     ) {
         TextField(
-            value = selectedCategory,
+            value = selectedMode,
             onValueChange = {},
             readOnly = true,
             trailingIcon = {
-                Icon(
-                    imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = null
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expanded
                 )
             },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor()
+                .padding(horizontal = 16.dp)
+                .border(
+                    width = 2.dp,
+                    color = Color.Gray,
+                    shape = MaterialTheme.shapes.medium
+                ),
             colors = colors(
                 focusedContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
@@ -290,44 +296,31 @@ fun GameModeDropdownMenu() {
                 errorContainerColor = Color.Transparent,
                 cursorColor = Color.White,
                 disabledTextColor = Color.White
-            ),
+            )
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .menuAnchor()
-                .border(
-                    width = 2.dp,
-                    color = Color.Gray,
-                    shape = MaterialTheme.shapes.medium
-                ),
-        )
-
-        ExposedDropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false },
-            modifier = Modifier.fillMaxWidth()
         ) {
-            categoriesList.forEach { category ->
+            categoriesList.forEach { mode ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedCategory = category.title
-                        isExpanded = false
+                        selectedMode = mode.title
+                        expanded = false
                     },
                     text = {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                painter = painterResource(id = category.image),
+                            Image(
+                                painter = painterResource(id = mode.image),
                                 contentDescription = null,
-                                modifier = Modifier.padding(8.dp)
+                                modifier = Modifier.size(24.dp)
                             )
-                            Text(
-                                text = category.title,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(8.dp)
-                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(mode.title)
                         }
                     }
                 )
